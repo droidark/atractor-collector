@@ -17,8 +17,7 @@ CREATE TABLE salary (
                       emp_no INT,
                       salary DOUBLE,
                       from_date DATE,
-                      to_date DATE,
-                      FOREIGN KEY(emp_no) REFERENCES employee
+                      to_date DATE
 );
 
 -- FILL TABLES

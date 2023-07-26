@@ -1,8 +1,12 @@
 package io.atractor.comic.collector.domain.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +44,7 @@ public class Employee {
 	@Column(name = "hire_date")
 	private Date hireDate;
 	
-	@OneToMany(mappedBy = "employee")
-	private Set<Salary> salaries;
+	@JsonIgnoreProperties("employee")
+	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+	private List<Salary> salaries;
 }
