@@ -6,25 +6,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.atractor.comic.collector.domain.model.Publisher;
-import io.atractor.comic.collector.domain.repository.PublisherRepository;
+import io.atractor.comic.collector.domain.model.Employee;
+import io.atractor.comic.collector.domain.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("api/v1/publishers")
+@RequestMapping("api/v1/employees")
 @AllArgsConstructor
-public class PublisherController {
+public class EmployeeController {
 	
-	private PublisherRepository publisherRepository;
+	private EmployeeRepository employeeRepository;
 	
 	@GetMapping
-	public Iterable<Publisher> retrieveAllPublishers() {
-		return publisherRepository.findAll();
+	public Iterable<Employee> retrieveAllEmployees() {
+		return employeeRepository.findAll();
 	}
 	
 	@PostMapping
-	public Publisher savePublisher(@RequestBody Publisher publisher) {
-		return publisherRepository.save(publisher);
+	public Employee saveEmployee(@RequestBody Employee employee) {
+		return employeeRepository.save(employee);
 	}
 
 }
