@@ -1,42 +1,34 @@
 package io.atractor.comic.collector.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import io.atractor.comic.collector.domain.model.Employee;
-import io.atractor.comic.collector.domain.model.Salary;
 import io.atractor.comic.collector.domain.repository.EmployeeRepository;
-import io.atractor.comic.collector.domain.repository.SalaryRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/employees")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmployeeController {
 	
-	private EmployeeRepository employeeRepository;
-	
-	private SalaryRepository salaryRepository;
+	private final EmployeeRepository repository;
 	
 	@GetMapping
-	public List<Employee> retrieveAllEmployees() {
-		return employeeRepository.findAll();
+	public ResponseEntity<List<Employee>> retrieveAllEmployees() {
+		return ResponseEntity.ok(repository.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public Salary retrieveSalaryById(@PathVariable int id) {
-		return salaryRepository.findById(id).get();
+	public ResponseEntity<Employee> retrieveSalaryById(@PathVariable int id) {
+		return ResponseEntity.ok(repository.findById(id).get());
 	}
 	
 	@PostMapping
-	public Employee saveEmployee(@RequestBody Employee employee) {
-		return employeeRepository.save(employee);
+	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+		return new ResponseEntity<>(repository.save(employee), HttpStatus.CREATED);
 	}
 
 }

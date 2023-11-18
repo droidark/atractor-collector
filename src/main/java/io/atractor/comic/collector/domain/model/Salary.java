@@ -2,16 +2,10 @@ package io.atractor.comic.collector.domain.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +20,8 @@ import lombok.NoArgsConstructor;
 public class Salary {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "salary_generator")
+	@SequenceGenerator(name = "salary_generator", sequenceName = "salary_seq", allocationSize = 1)
 	@Column(name = "id")
 	private int id;
 	
@@ -39,9 +34,9 @@ public class Salary {
 	@Column(name = "to_date")
 	private Date toDate;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "emp_no")
-	@JsonIgnoreProperties("salaries")
 	private Employee employee;
 
 }

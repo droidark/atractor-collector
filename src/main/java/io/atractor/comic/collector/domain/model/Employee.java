@@ -6,14 +6,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +22,8 @@ import lombok.NoArgsConstructor;
 public class Employee {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_generator")
+	@SequenceGenerator(name = "employee_generator", sequenceName = "employee_seq", allocationSize = 1)
 	@Column(name = "emp_no")
 	private int empNo;
 	
@@ -44,7 +39,8 @@ public class Employee {
 	@Column(name = "hire_date")
 	private Date hireDate;
 	
+	@JsonManagedReference
 	@JsonIgnoreProperties("employee")
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "employee", cascade = CascadeType.ALL)
 	private List<Salary> salaries;
 }
